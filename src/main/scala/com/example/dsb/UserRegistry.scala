@@ -17,10 +17,10 @@ private object UserRegistry {
   /** User-registry command (message _to_ user registry actor). */
   sealed trait Command
 
-  final case class GetUsers(replyTo: ActorRef[Users]) extends Command
-  final case class CreateUser(user: User, xxreplyTo: ActorRef[ActionConfirmation]) extends Command
-  final case class GetUser(name: String, replyTo: ActorRef[GetUserResponse]) extends Command
-  final case class DeleteUser(name: String, replyTo: ActorRef[ActionConfirmation]) extends Command
+  final case class GetUsers(replyTarget: ActorRef[Users]) extends Command
+  final case class CreateUser(user: User, replyTarget: ActorRef[ActionConfirmation]) extends Command
+  final case class GetUser(name: String, replyTarget: ActorRef[GetUserResponse]) extends Command
+  final case class DeleteUser(name: String, replyTarget: ActorRef[ActionConfirmation]) extends Command
 
   /* Response messages from user-registry actor and/or high-level DTO to HTTP
      response encoding. */
@@ -32,20 +32,20 @@ private object UserRegistry {
   private def getRegistryBehavior(givenRegistryState: Set[User]): Behavior[Command] =
     Behaviors.receiveMessage {
 
-      case GetUsers(xxreplyTo) =>
-        xxreplyTo ! Users(givenRegistryState.toSeq)
+      case GetUsers(replyTarget) =>
+        replyTarget ! Users(givenRegistryState.toSeq)
         Behaviors.same
 
-      case CreateUser(user, xxreplyTo) =>
-        xxreplyTo ! ActionConfirmation(s"User ${user.name} created.")
+      case CreateUser(user, replyTarget) =>
+        replyTarget ! ActionConfirmation(s"User ${user.name} created.")
         getRegistryBehavior(givenRegistryState + user)
 
-      case GetUser(name, xxreplyTo) =>
-        xxreplyTo ! GetUserResponse(givenRegistryState.find(_.name == name))
+      case GetUser(name, replyTarget) =>
+        replyTarget ! GetUserResponse(givenRegistryState.find(_.name == name))
         Behaviors.same
 
-      case DeleteUser(name, xxreplyTo) =>
-        xxreplyTo ! ActionConfirmation(s"User $name deleted.")
+      case DeleteUser(name, replyTarget) =>
+        replyTarget ! ActionConfirmation(s"User $name deleted.")
         getRegistryBehavior(givenRegistryState.filterNot(_.name == name))
     }
 
