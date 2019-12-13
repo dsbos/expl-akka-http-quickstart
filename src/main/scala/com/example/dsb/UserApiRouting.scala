@@ -53,8 +53,8 @@ private class UserApiRouting(userRegistryActor: ActorRef[UserRegistry.Command])(
           concat(
             get {
               rejectEmptyResponse {
-                onSuccess(getUser(userName)) { xxresponse =>
-                  complete(xxresponse.maybeUser)
+                onSuccess(getUser(userName)) { requestedUser =>
+                  complete(requestedUser.maybeUser)
                 }
               }
             },
