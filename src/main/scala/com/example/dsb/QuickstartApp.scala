@@ -43,7 +43,7 @@ private object QuickstartApp {
       actorContext.watch(userRegistryActor)
 
       val userRegistryRouting = new UserApiRouting(userRegistryActor)(actorContext.system)
-      startHttpServer(userRegistryRouting.xxuserRoutes, actorContext.system)
+      startHttpServer(userRegistryRouting.userRoutes, actorContext.system)
 
       Behaviors.empty
     }

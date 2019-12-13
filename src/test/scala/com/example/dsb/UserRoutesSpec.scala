@@ -22,7 +22,7 @@ class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with Scala
   // but we could "mock" it by implementing it in-place or by using a TestProbe
   // created with testKit.createTestProbe()
   private val userRegistry = testKit.spawn(UserRegistry())  //??? revisit name
-  private lazy val xxroutes = new UserApiRouting(userRegistry).xxuserRoutes
+  private lazy val routes = new UserApiRouting(userRegistry).userRoutes
 
   // use the json formats to marshal and unmarshall objects in the test
   import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
@@ -33,7 +33,7 @@ class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with Scala
       // note that there's no need for the host part in the uri:
       val request = HttpRequest(uri = "/users")
 
-      request ~> xxroutes ~> check {
+      request ~> routes ~> check {
         status should ===(StatusCodes.OK)
 
         // we expect the response to be json:
@@ -51,7 +51,7 @@ class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with Scala
       // using the RequestBuilding DSL:
       val request = Post("/users").withEntity(userEntity)
 
-      request ~> xxroutes ~> check {
+      request ~> routes ~> check {
         status should ===(StatusCodes.Created)
 
         // we expect the response to be json:
@@ -66,7 +66,7 @@ class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with Scala
       // user the RequestBuilding DSL provided by ScalatestRouteSpec:
       val request = Delete(uri = "/users/Kapi")
 
-      request ~> xxroutes ~> check {
+      request ~> routes ~> check {
         status should ===(StatusCodes.OK)
 
         // we expect the response to be json:

@@ -33,7 +33,7 @@ private class UserApiRouting(userRegistryActor: ActorRef[UserRegistry.Command])(
   private def deleteUser(name: String): Future[ActionConfirmation] =
     userRegistryActor.ask(DeleteUser(name, _))
 
-  val xxuserRoutes: Route =
+  val userRoutes: Route =
     pathPrefix("users") {
       concat(
         pathEnd {  // - /users (but not "/users/")
