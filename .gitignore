@@ -1,3 +1,7 @@
-*.class
-.idea
-target/
+# Build-output subtrees (SBT):
+/target/
+/project/target/
+/project/project/
+
+# IDE subtree(s):
+/.idea/
