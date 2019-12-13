@@ -1,6 +1,6 @@
 package com.example.dsb
 
-import com.example.dsb.UserRegistry.{ActionPerformed, Users}
+import com.example.dsb.UserRegistry.{ActionConfirmation, Users}
 
 import spray.json.DefaultJsonProtocol
 
@@ -12,5 +12,5 @@ private object UserRegistryApiJsonFormats  {
   implicit val userJsonFormat = jsonFormat3(User)
   implicit val usersJsonFormat = jsonFormat1(Users)
 
-  implicit val actionPerformedJsonFormat = jsonFormat1(ActionPerformed)
+  implicit val actionPerformedJsonFormat = jsonFormat1(ActionConfirmation)
 }

@@ -28,9 +28,9 @@ private class UserApiRouting(userRegistryActor: ActorRef[UserRegistry.Command])(
     userRegistryActor.ask(GetUsers)
   private def getUser(name: String): Future[GetUserResponse] =
     userRegistryActor.ask(GetUser(name, _))
-  private def createUser(user: User): Future[ActionPerformed] =
+  private def createUser(user: User): Future[ActionConfirmation] =
     userRegistryActor.ask(CreateUser(user, _))
-  private def deleteUser(name: String): Future[ActionPerformed] =
+  private def deleteUser(name: String): Future[ActionConfirmation] =
     userRegistryActor.ask(DeleteUser(name, _))
 
   val xxuserRoutes: Route =
@@ -43,8 +43,8 @@ private class UserApiRouting(userRegistryActor: ActorRef[UserRegistry.Command])(
             },
             post {
               entity(as[User]) { user =>
-                onSuccess(createUser(user)) { xxperformed =>
-                  complete((StatusCodes.Created, xxperformed))
+                onSuccess(createUser(user)) { actionConfirmation =>
+                  complete((StatusCodes.Created, actionConfirmation))
                 }
               }
             })
@@ -59,8 +59,8 @@ private class UserApiRouting(userRegistryActor: ActorRef[UserRegistry.Command])(
               }
             },
             delete {
-              onSuccess(deleteUser(userName)) { xxperformed =>
-                complete((StatusCodes.OK, xxperformed))
+              onSuccess(deleteUser(userName)) { actionConfirmation =>
+                complete((StatusCodes.OK, actionConfirmation))
               }
             })
         })

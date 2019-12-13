@@ -40,7 +40,7 @@ class UserRoutesSpec extends WordSpec with Matchers with ScalaFutures with Scala
         contentType should ===(ContentTypes.`application/json`)
 
         // and no entries should be in the list:
-        entityAs[String] should ===("""{"xxusers":[]}""")
+        entityAs[String] should ===("""{"users":[]}""")
       }
     }
 
