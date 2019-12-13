@@ -1,15 +1,17 @@
 package com.example.dsb
 
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.server.Route
-
-import scala.concurrent.Future
 import com.example.dsb.UserRegistry._
+
 import akka.actor.typed.ActorRef
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.AskPattern._
+import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 import akka.util.Timeout
+
+import scala.concurrent.Future
+
 
 /**
  * Routing of user-registry ReST API to a given user-registry actor.

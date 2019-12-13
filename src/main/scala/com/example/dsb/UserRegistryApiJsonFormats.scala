@@ -4,6 +4,7 @@ import com.example.dsb.UserRegistry.{ActionConfirmation, Users}
 
 import spray.json.DefaultJsonProtocol
 
+
 /** ???? codecs between user registry actor response messages and HTTP response bodies */
 private object UserRegistryApiJsonFormats  {
   // import the default encoders for primitive types (Int, String, Lists etc)
